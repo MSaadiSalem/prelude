@@ -1,0 +1,73 @@
+#+STARTUP: overview hidestars
+
+* Emacs tools
+** Editing
+*** Lorem-Ipsum
+    This package provides convenience functions to insert dummy Latin text into a buffer.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lorem-ipsum
+        :ensure t
+        :bind
+        ("C-c C-l s". lorem-ipsum-insert-sentences)
+        ("C-c C-l p". lorem-ipsum-insert-paragraphs)
+        ("C-c C-l l". lorem-ipsum-insert-list)
+        )
+    #+END_SRC
+
+*** Multiple-Cursors
+    [[https://github.com/magnars/multiple-cursors.el][In GitHub]]
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package multiple-cursors
+        :ensure t
+        :bind(
+        ;; When you have an active region that spans multiple lines,
+        ;; the following will add a cursor to each line:
+        ("C-S-c C-S-c". mc/edit-lines)
+
+        ;; When you want to add multiple cursors not based on continuous lines,
+        ;; but based on keywords in the buffer:
+        ("C->". mc/mark-next-like-this)
+        ("C-<". mc/mark-previous-like-this)
+        ("C-c C-<". mc/mark-all-like-this))
+        )
+    #+END_SRC
+
+* Programming and markup languages tools
+** Colors
+*** Color Identifiers Mode
+    [[https://github.com/ankurdave/color-identifiers-mode][Color Identifiers]] picks colors adaptively to fit the theme. Color Identifiers is a minor mode for Emacs that highlights each source code identifier uniquely based on its name. It is inspired by a post by Evan Brooks.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package color-identifiers-mode
+        :ensure t
+        :init
+        (add-hook 'after-init-hook 'global-color-identifiers-mode)
+        )
+    #+END_SRC
+
+** Snippet
+**** Auto-yasnippet
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package auto-yasnippet
+         :ensure t
+         :bind
+         ("H-w". aya-create)
+         ("H-y". aya-expand)
+         )
+     #+END_SRC
+**** YASnippet
+     [[https://www.emacswiki.org/emacs/Yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it into function templates.
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package yasnippet
+         :ensure t
+         :diminish yas
+         :init
+         (yas/initialize)
+         (yas/global-mode 1)
+         (yas-load-directory "~/.emacs.d/snippets/")
+         )
+     #+END_SRC

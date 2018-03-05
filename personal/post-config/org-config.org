@@ -1,0 +1,100 @@
+#+STARTUP: overview hidestars
+
+
+* Installation
+  [[https://orgmode.org/manual/Installation.html][Org manual installation]]:
+  Org is part of recent distributions of GNU Emacs, so you normally don’t need to install it.
+  If, for one reason or another, you want to install Org on top of this pre-packaged version, there are three ways to do it:
+  - By using Emacs package system.
+    Important: you need to do this in a session where no .org file has been visited, i.e., where no Org built-in function have been loaded. Otherwise autoload Org functions will mess up the installation.
+  - By downloading Org as an archive.
+  - By using Org’s git repository.
+
+  [[https://emacs.stackexchange.com/questions/7890/org-plus-contrib-and-org-with-require-or-use-package][org-plus-contrib and org with `require` or `use-package`]]
+
+  #+BEGIN_SRC emacs-lisp
+    ;(use-package org-plus-contrib
+    ;  :ensure t
+    ;  :pin org)
+    (defun package-config ()
+      (unless (package-installed-p 'org-plus-contrib)
+        (package-refresh-contents)
+        (package-install 'org-plus-contrib)))
+
+    (add-hook 'after-init-hook 'package-config)
+  #+END_SRC
+
+* Configure active languages
+
+  #+BEGIN_SRC emacs-lisp
+    (defadvice org-babel-execute-src-block (around load-language nil activate)
+      "Load language if needed"
+      (let ((language (org-element-property :language (org-element-at-point))))
+        (unless (cdr (assoc (intern language) org-babel-load-languages))
+          (add-to-list 'org-babel-load-languages (cons (intern language) t))
+          (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+        ad-do-it))
+  #+END_SRC
+
+* Basic Configuration
+  #+BEGIN_SRC emacs-lisp
+    (setq org-src-fontify-natively t) ;; fontify code in code blocks
+    (setq org-src-tab-acts-natively t)
+
+    ;;(eval-after-load "org-indent" '(diminish 'org-indent-mode))
+  #+END_SRC
+
+* Activation
+  Org mode buffers need font-lock to be turned on: this is the default in Emacs.
+
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key "\C-cl" 'org-store-link)
+    (global-set-key "\C-ca" 'org-agenda)
+    (global-set-key "\C-cc" 'org-capture)
+    (global-set-key "\C-cb" 'org-iswitchb)
+  #+END_SRC
+
+* Org Packages
+** Org-bullets
+   Show org-mode bullets as UTF-8 characters.
+   [[http://bizuns.com/symbols-bullets-copy-paste][Bullets Symobles]]
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :ensure t
+       :init
+       (add-hook 'org-mode-hook 'org-bullets-mode)
+       (setq org-bullets-bullet-list '("◖" "●" "○" "■" "□" "◆" "◇" "▶" "▲"))
+       )
+   #+END_SRC
+
+** Org-download
+   Image drag-and-drop for Emacs org-mode.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-download
+       :ensure t)
+   #+END_SRC
+
+** Org & reveal.js
+
+*** Requirements and Installation:
+    [[https://github.com/hakimel/reveal.js/][Reveal.js.]]
+    [[https://github.com/yjwen/org-reveal/][ox-reveal`<.el.]]
+    Org-mode.
+    htmlize.el (optional, for syntax highlighting).
+    And, of course, emacs.
+
+*** [[https://cestlaz.github.io/posts/using-emacs-11-reveal/][Using Emacs - Reveal.js presentation]]:
+    The main package you have to use for reveal.js presentations in org-mode is org-reveal. The packages to install are [[https://github.com/yjwen/org-reveal/][ox-reveal]] and  htmlize for syntax highlighting:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ox-reveal
+       :ensure ox-reveal)
+
+     (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+     (setq org-reveal-mathjax t)
+
+     (use-package htmlize
+       :ensure t)
+   #+END_SRC
