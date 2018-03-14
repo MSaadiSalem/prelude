@@ -16,7 +16,6 @@
   (progn
     (message "Linux"))))
 
-
 ;; Fullscreen mode
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
@@ -80,5 +79,13 @@
               100)
          '(85 . 50) '(100 . 100)))))
 (global-set-key (kbd "C-c 1") 'toggle-transparency)
+
+;; Bidirectional Display
+(setq bidi-display-reordering 1)
+(setq bidi-paragraph-direction nil)
+
+;; Undisplayable Characters
+;; Coding Systems for Terminal I/O
+(set-keyboard-coding-system nil)
 
 ;;; preload.el ends here
