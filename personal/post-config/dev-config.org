@@ -279,7 +279,7 @@
          :init
          (add-hook 'before-save-hook 'py-isort-before-save)
          :config
-         (setq py-isort-options '("--lines=50"))
+         (setq py-isort-options '("--lines=5"))
          )
      #+END_SRC
 
