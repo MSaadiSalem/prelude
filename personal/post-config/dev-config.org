@@ -277,9 +277,9 @@
        (use-package py-isort
          :ensure t
          :init
-         (add-hook 'before-save-hook 'py-isort-before-save)
+         ;;(add-hook 'before-save-hook 'py-isort-before-save)
          :config
-         (setq py-isort-options '("--lines=5"))
+         (setq py-isort-options '("--lines=4"))
          )
      #+END_SRC
 

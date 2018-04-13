@@ -88,25 +88,11 @@
 (provide 'frontmacs-javascript)
 ;;; frontmacs-javascript.el ends here
 
-;; (setq python-shell-completion-native-enable nil)
-
-;;      (with-eval-after-load 'python
-;;        (defun python-shell-completion-native-try ()
-;;          "Return non-nil if can trigger native completion."
-;;          (let ((python-shell-completion-native-enable t)
-;;                (python-shell-completion-native-output-timeout
-;;                 python-shell-completion-native-try-output-timeout))
-;;            (python-shell-completion-native-get-completions
-;;             (get-buffer-process (current-buffer))
-;;             nil "_"))))
-
 (use-package elpy
-         :ensure t
-         :init
-         (elpy-enable)
-;;         (setq python-shell-interpreter "python"
-;;               python-shell-interpreter-args "-i")
-         )
+  :ensure t
+  :init
+  (elpy-enable)
+  )
 
 (require 'python)
 (define-key python-mode-map (kbd "C-c C-c")
@@ -140,9 +126,9 @@
 (use-package py-isort
   :ensure t
   :init
-  (add-hook 'before-save-hook 'py-isort-before-save)
+  ;;(add-hook 'before-save-hook 'py-isort-before-save)
   :config
-  (setq py-isort-options '("--lines=5"))
+  (setq py-isort-options '("--lines=4"))
   )
 
 (use-package py-autopep8
